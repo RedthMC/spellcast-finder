@@ -7,6 +7,10 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -31,16 +35,16 @@ jobs:
             --exclude=.git \
             --exclude=.github \
             --exclude=target \
-            --exclude=resource \
+            --exclude=resources \
             .
 
       - name: Upload artifact
         id: upload-artifact
         uses: actions/upload-artifact@v4
         with:
-          name: hmm
+          name: bundle
           path: artifact.tar
-          retention-days: 9000
+          retention-days: 90
           if-no-files-found: error
 
       - name: Deploy to GitHub Pages
