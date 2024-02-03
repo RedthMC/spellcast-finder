@@ -1,8 +1,6 @@
 use std::{
-    fs::File,
-    io::{BufRead, BufReader, Result},
+    io::Result,
     ops::Add,
-    path::Path,
 };
 
 use crate::word::{Letter, LetterCountsMap, Word};
@@ -10,11 +8,10 @@ use crate::word::{Letter, LetterCountsMap, Word};
 #[derive(Default)]
 pub struct WordList(Box<[Word]>);
 impl WordList {
-    pub fn load<P: AsRef<Path>>(path: P) -> Result<WordList> {
-        let file = File::open(path)?;
-        let lines = BufReader::new(file).lines();
-        let collected: Result<Box<[Word]>> = lines.map(|l| l.map(Word::new)).collect();
-        return Ok(WordList(collected?));
+    pub fn load(string: &str) -> Result<WordList> {
+        let lines = string.lines();
+        let collected: Box<[Word]> = lines.map(Word::new).collect();
+        return Ok(WordList(collected));
     }
 
     pub fn find(

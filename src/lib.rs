@@ -9,9 +9,9 @@ static mut WORD_LIST: Option<WordList> = None;
 
 
 #[wasm_bindgen]
-pub fn load_word_list() -> bool {
+pub fn load_word_list(word_list: &str) -> bool {
     unsafe {
-        WORD_LIST = WordList::load("./resources/words.txt").ok();
+        WORD_LIST = WordList::load(word_list).ok();
         return WORD_LIST.is_some();
     }
 }

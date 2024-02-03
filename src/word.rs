@@ -74,12 +74,12 @@ pub struct Word {
 }
 
 impl Word {
-    pub fn new(string: String) -> Word {
+    pub fn new(string: &str) -> Word {
         let letters: Box<[Letter]> = string.bytes().map_while(Letter::new).collect();
         let score = letters.iter().map(|l| l.get_score()).sum();
         let letter_counts = LetterCountsMap::new(&letters);
         return Word {
-            string: string.into_boxed_str(),
+            string: string.into(),
             letters,
             score,
             letter_counts,
