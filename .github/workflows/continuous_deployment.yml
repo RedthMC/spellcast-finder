@@ -11,12 +11,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: lmao
+        run: ls
+
       - name: Build
         uses: jetli/wasm-pack-action@v0.4.0
-      - name: Build
-        run: wasm-pack build "$INPUT_PATH" --target web
-        env:
-          INPUT_PATH: ${{ inputs.path }}
+      - run: wasm-pack build --target web
 
       # - name: Remove the .gitignore idk why lol
       #   run: rm -f "$INPUT_PATH/pkg/.gitignore"
