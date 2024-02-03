@@ -27,22 +27,20 @@ jobs:
         shell: sh
         run: |
           tar \
-            --dereference --hard-dereference \
-            --directory "$INPUT_PATH" \
-            -cvf "$RUNNER_TEMP/artifact.tar" \
+            -cvf "artifact.tar" \
             --exclude=.git \
             --exclude=.github \
+            --exclude=target \
+            --exclude=resource \
             .
-        env:
-          INPUT_PATH: ${{ inputs.path }}
 
       - name: Upload artifact
         id: upload-artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ inputs.name }}
-          path: ${{ runner.temp }}/artifact.tar
-          retention-days: ${{ inputs.retention-days }}
+          name: hmm
+          path: artifact.tar
+          retention-days: 9000
           if-no-files-found: error
 
       - name: Deploy to GitHub Pages
