@@ -1,0 +1,94 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:700|Poppins:400");
+
+* {
+    min-width: 0;
+}
+
+body {
+    font-family: Poppins, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    place-items: center;
+    display: grid;
+    background-color: #090909;
+    color: #efefef;
+    margin: 0;
+}
+
+h1 {
+    font-size: 3rem;
+    margin: 0.5rem;
+}
+
+hr {
+    width: 50rem;
+    display: block;
+}
+
+#board {
+    margin: 1rem auto;
+    display: block;
+}
+
+#board-background {
+    width: 45rem;
+    height: 45rem;
+    display: grid;
+    gap: 1rem;
+    background-color: #202020;
+    grid-template-columns: auto auto auto auto auto;
+    grid-template-rows: auto auto auto auto auto;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+.cell-background {
+    background-color: #3a3a3a;
+    border-radius: 1rem;
+    transition: 100ms;
+    border: none;
+}
+.cell-background:hover {
+    background-color: #797979;
+    transition: 100ms;
+}
+
+#cells {
+    display: flex;
+    padding: 0 1rem 1rem 0;
+    position: absolute;
+}
+
+.cell {
+    background-color: #f0f0f0;
+    color: #090909;
+    position: absolute;
+    width: 6rem;
+    height: 6rem;
+    font-size: 4rem;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    margin: 1rem 0 0 1rem;
+    transition: left 0.25s ease, top 0.25s ease, background-color 0.25s step-end;
+    /* animation: 0.25s ease-in-out 0.2s backwards fadein; */
+}
+.remove {
+    animation: 0.25s ease-in-out 0s backwards removal;
+}
+
+@keyframes removal {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes fadein {
+    from {
+        transform: scale(0%);
+    }
+
+    to {
+        transform: scale(100%);
+    }
+}
