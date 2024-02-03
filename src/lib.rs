@@ -37,9 +37,14 @@ type PosMultiplier = {
 extern "C" {
     #[wasm_bindgen(typescript_type = "PosMultiplier")]
     pub type PosMultiplier;
-
+    
+    #[wasm_bindgen(structural, method, getter)]
     fn double_letter(this: &PosMultiplier) -> i32;
+    
+    #[wasm_bindgen(structural, method, getter)]
     fn triple_letter(this: &PosMultiplier) -> i32;
+    
+    #[wasm_bindgen(structural, method, getter)]
     fn double_score(this: &PosMultiplier) -> i32;
 }
 
@@ -53,9 +58,9 @@ extern "C" {
 impl Into<Multipliers<Option<Pos>>> for PosMultiplier {
     fn into(self) -> Multipliers<Option<Pos>> {
         let index = Multipliers {
-            double_letter: double_letter(&self),
-            triple_letter: triple_letter(&self),
-            double_score: double_score(&self),
+            double_letter: self.double_letter(),
+            triple_letter: self.triple_letter(),
+            double_score: self.double_score(),
         };
         return index.map(|&i| Pos::from_index(i));
     }

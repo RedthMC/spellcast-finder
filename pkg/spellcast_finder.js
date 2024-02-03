@@ -243,16 +243,16 @@ async function __wbg_load(module, imports) {
 function __wbg_get_imports() {
     const imports = {};
     imports.wbg = {};
-    imports.wbg.__wbg_doubleletter_fc5f8564beba6d24 = function(arg0) {
-        const ret = double_letter(getObject(arg0));
+    imports.wbg.__wbg_doubleletter_8bfa295eff697291 = function(arg0) {
+        const ret = getObject(arg0).double_letter;
         return ret;
     };
-    imports.wbg.__wbg_tripleletter_1b17c09f3e6ed5d4 = function(arg0) {
-        const ret = triple_letter(getObject(arg0));
+    imports.wbg.__wbg_tripleletter_18dfb6ffa433c892 = function(arg0) {
+        const ret = getObject(arg0).triple_letter;
         return ret;
     };
-    imports.wbg.__wbg_doublescore_989b02eaa1899481 = function(arg0) {
-        const ret = double_score(getObject(arg0));
+    imports.wbg.__wbg_doublescore_1cf149ea942403fb = function(arg0) {
+        const ret = getObject(arg0).double_score;
         return ret;
     };
     imports.wbg.__wbindgen_object_drop_ref = function(arg0) {
