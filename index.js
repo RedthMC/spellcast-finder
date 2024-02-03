@@ -1,4 +1,4 @@
-import init, { load_word_list, find, JsPosMultipliers } from './pkg/spellcast_finder.js';
+import init, { load_word_list, find } from './pkg/spellcast_finder.js';
 await init();
 const response = await fetch("https://raw.githubusercontent.com/RedthMC/spellcast-finder/master/resources/words.txt");
 const wordList = await response.text();
