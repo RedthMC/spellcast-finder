@@ -17,11 +17,10 @@ impl Default for Letter {
 
 impl Letter {
     pub fn new(byte: u8) -> Option<Self> {
-        if !byte.is_ascii_lowercase() {
-            return None;
-        } else {
-            return Some(Self(b'a'));
-        }
+        return match byte.is_ascii_lowercase() {
+            true => Some(Self(byte)),
+            false => None,
+        };
     }
 
     pub fn get_alphabetical_index(&self) -> usize {

@@ -1,17 +1,13 @@
-use std::{
-    io::Result,
-    ops::Add,
-};
+use std::ops::Add;
 
 use crate::word::{Letter, LetterCountsMap, Word};
 
 #[derive(Default)]
 pub struct WordList(Box<[Word]>);
 impl WordList {
-    pub fn load(string: &str) -> Result<WordList> {
-        let lines = string.lines();
-        let collected: Box<[Word]> = lines.map(Word::new).collect();
-        return Ok(WordList(collected));
+    pub fn load(string: &str) -> WordList {
+        let collected: Box<[Word]> = string.lines().map(Word::new).collect();
+        return WordList(collected);
     }
 
     pub fn find(
@@ -195,6 +191,7 @@ impl<'a> WordFinder<'a> {
     }
 }
 
+#[derive(Clone, Debug)]
 pub struct SearchResult {
     pub score: i32,
     pub path: Vec<Pos>,
