@@ -1,5 +1,25 @@
 let wasm;
 
+const heap = new Array(128).fill(undefined);
+
+heap.push(undefined, null, true, false);
+
+function getObject(idx) { return heap[idx]; }
+
+let heap_next = heap.length;
+
+function dropObject(idx) {
+    if (idx < 132) return;
+    heap[idx] = heap_next;
+    heap_next = idx;
+}
+
+function takeObject(idx) {
+    const ret = getObject(idx);
+    dropObject(idx);
+    return ret;
+}
+
 const cachedTextDecoder = (typeof TextDecoder !== 'undefined' ? new TextDecoder('utf-8', { ignoreBOM: true, fatal: true }) : { decode: () => { throw Error('TextDecoder not available') } } );
 
 if (typeof TextDecoder !== 'undefined') { cachedTextDecoder.decode(); };
@@ -83,23 +103,23 @@ export function load_word_list(word_list) {
     return ret !== 0;
 }
 
-function _assertClass(instance, klass) {
-    if (!(instance instanceof klass)) {
-        throw new Error(`expected instance of ${klass.name}`);
-    }
-    return instance.ptr;
+function addHeapObject(obj) {
+    if (heap_next === heap.length) heap.push(heap.length + 1);
+    const idx = heap_next;
+    heap_next = heap[idx];
+
+    heap[idx] = obj;
+    return idx;
 }
 /**
 * @param {string} board
-* @param {JsPosMultipliers} multipliers
+* @param {PosMultiplier} multipliers
 * @returns {JsSearchResult | undefined}
 */
 export function find(board, multipliers) {
     const ptr0 = passStringToWasm0(board, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
     const len0 = WASM_VECTOR_LEN;
-    _assertClass(multipliers, JsPosMultipliers);
-    var ptr1 = multipliers.__destroy_into_raw();
-    const ret = wasm.find(ptr0, len0, ptr1);
+    const ret = wasm.find(ptr0, len0, addHeapObject(multipliers));
     return ret === 0 ? undefined : JsSearchResult.__wrap(ret);
 }
 
@@ -115,61 +135,6 @@ function getInt32Memory0() {
 function getArrayI32FromWasm0(ptr, len) {
     ptr = ptr >>> 0;
     return getInt32Memory0().subarray(ptr / 4, ptr / 4 + len);
-}
-/**
-*/
-export class JsPosMultipliers {
-
-    __destroy_into_raw() {
-        const ptr = this.__wbg_ptr;
-        this.__wbg_ptr = 0;
-
-        return ptr;
-    }
-
-    free() {
-        const ptr = this.__destroy_into_raw();
-        wasm.__wbg_jsposmultipliers_free(ptr);
-    }
-    /**
-    * @returns {number}
-    */
-    get double_letter() {
-        const ret = wasm.__wbg_get_jsposmultipliers_double_letter(this.__wbg_ptr);
-        return ret;
-    }
-    /**
-    * @param {number} arg0
-    */
-    set double_letter(arg0) {
-        wasm.__wbg_set_jsposmultipliers_double_letter(this.__wbg_ptr, arg0);
-    }
-    /**
-    * @returns {number}
-    */
-    get triple_letter() {
-        const ret = wasm.__wbg_get_jsposmultipliers_triple_letter(this.__wbg_ptr);
-        return ret;
-    }
-    /**
-    * @param {number} arg0
-    */
-    set triple_letter(arg0) {
-        wasm.__wbg_set_jsposmultipliers_triple_letter(this.__wbg_ptr, arg0);
-    }
-    /**
-    * @returns {number}
-    */
-    get double_score() {
-        const ret = wasm.__wbg_get_jsposmultipliers_double_score(this.__wbg_ptr);
-        return ret;
-    }
-    /**
-    * @param {number} arg0
-    */
-    set double_score(arg0) {
-        wasm.__wbg_set_jsposmultipliers_double_score(this.__wbg_ptr, arg0);
-    }
 }
 /**
 */
@@ -278,6 +243,21 @@ async function __wbg_load(module, imports) {
 function __wbg_get_imports() {
     const imports = {};
     imports.wbg = {};
+    imports.wbg.__wbg_doubleletter_fc5f8564beba6d24 = function(arg0) {
+        const ret = double_letter(getObject(arg0));
+        return ret;
+    };
+    imports.wbg.__wbg_tripleletter_1b17c09f3e6ed5d4 = function(arg0) {
+        const ret = triple_letter(getObject(arg0));
+        return ret;
+    };
+    imports.wbg.__wbg_doublescore_989b02eaa1899481 = function(arg0) {
+        const ret = double_score(getObject(arg0));
+        return ret;
+    };
+    imports.wbg.__wbindgen_object_drop_ref = function(arg0) {
+        takeObject(arg0);
+    };
     imports.wbg.__wbindgen_throw = function(arg0, arg1) {
         throw new Error(getStringFromWasm0(arg0, arg1));
     };

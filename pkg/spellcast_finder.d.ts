@@ -7,24 +7,18 @@
 export function load_word_list(word_list: string): boolean;
 /**
 * @param {string} board
-* @param {JsPosMultipliers} multipliers
+* @param {PosMultiplier} multipliers
 * @returns {JsSearchResult | undefined}
 */
-export function find(board: string, multipliers: JsPosMultipliers): JsSearchResult | undefined;
-/**
-*/
-export class JsPosMultipliers {
-  free(): void;
-/**
-*/
-  double_letter: number;
-/**
-*/
-  double_score: number;
-/**
-*/
-  triple_letter: number;
+export function find(board: string, multipliers: PosMultiplier): JsSearchResult | undefined;
+
+type PosMultiplier = {
+    double_letter: number;
+    triple_letter: number;
+    double_score: number;
 }
+
+
 /**
 */
 export class JsSearchResult {
@@ -46,13 +40,6 @@ export interface InitOutput {
   readonly memory: WebAssembly.Memory;
   readonly load_word_list: (a: number, b: number) => number;
   readonly find: (a: number, b: number, c: number) => number;
-  readonly __wbg_jsposmultipliers_free: (a: number) => void;
-  readonly __wbg_get_jsposmultipliers_double_letter: (a: number) => number;
-  readonly __wbg_set_jsposmultipliers_double_letter: (a: number, b: number) => void;
-  readonly __wbg_get_jsposmultipliers_triple_letter: (a: number) => number;
-  readonly __wbg_set_jsposmultipliers_triple_letter: (a: number, b: number) => void;
-  readonly __wbg_get_jsposmultipliers_double_score: (a: number) => number;
-  readonly __wbg_set_jsposmultipliers_double_score: (a: number, b: number) => void;
   readonly __wbg_jssearchresult_free: (a: number) => void;
   readonly __wbg_get_jssearchresult_score: (a: number) => number;
   readonly __wbg_set_jssearchresult_score: (a: number, b: number) => void;

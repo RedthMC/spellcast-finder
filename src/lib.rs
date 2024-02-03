@@ -17,25 +17,45 @@ pub fn load_word_list(word_list: &str) -> bool {
 }
 
 #[wasm_bindgen]
-pub fn find(board: &str, multipliers: JsPosMultipliers) -> Option<JsSearchResult> {
+pub fn find(board: &str, multipliers: PosMultiplier) -> Option<JsSearchResult> {
     let word_list = unsafe { WORD_LIST.as_ref()? };
     let mut iter = board.bytes().map_while(Letter::new);
     let board = [iter.next()?; 25];
     return word_list.find(&board, multipliers.into()).map(JsSearchResult::from);
 }
 
-#[wasm_bindgen]
-pub struct JsPosMultipliers {
-    pub double_letter: i32,
-    pub triple_letter: i32,
-    pub double_score: i32,
+#[wasm_bindgen(typescript_custom_section)]
+const POS_MULTIPLIERS: &'static str = r#"
+type PosMultiplier = {
+    double_letter: number;
+    triple_letter: number;
+    double_score: number;
 }
-impl Into<Multipliers<Option<Pos>>> for JsPosMultipliers {
+"#;
+
+#[wasm_bindgen]
+extern "C" {
+    #[wasm_bindgen(typescript_type = "PosMultiplier")]
+    pub type PosMultiplier;
+
+    fn double_letter(this: &PosMultiplier) -> i32;
+    fn triple_letter(this: &PosMultiplier) -> i32;
+    fn double_score(this: &PosMultiplier) -> i32;
+}
+
+// #[wasm_bindgen]
+// pub struct JsPosMultipliers {
+//     pub double_letter: i32,
+//     pub triple_letter: i32,
+//     pub double_score: i32,
+// }
+
+impl Into<Multipliers<Option<Pos>>> for PosMultiplier {
     fn into(self) -> Multipliers<Option<Pos>> {
         let index = Multipliers {
-            double_letter: self.double_letter,
-            triple_letter: self.triple_letter,
-            double_score: self.double_score,
+            double_letter: double_letter(&self),
+            triple_letter: triple_letter(&self),
+            double_score: double_score(&self),
         };
         return index.map(|&i| Pos::from_index(i));
     }
