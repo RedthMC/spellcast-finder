@@ -11,7 +11,7 @@ jobs:
       - name: Build
         uses: jetli/wasm-pack-action@v0.4.0
       - name: Build
-        run: wasm-pack build --target web "$INPUT_PATH"
+        run: wasm-pack build "$INPUT_PATH" --target web
         env:
           INPUT_PATH: ${{ inputs.path }}
 
