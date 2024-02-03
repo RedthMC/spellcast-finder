@@ -9,10 +9,18 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: jetli/wasm-pack-action@v0.4.0
-      - run: wasm-pack build --target web
+      - name: Build
+        uses: jetli/wasm-pack-action@v0.4.0
+      - name: Build
+        run: wasm-pack build --target web
 
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Remove the .gitignore idk why lol
+        run: rm -f "$INPUT_PATH/pkg/.gitignore"
+        env:
+          INPUT_PATH: ${{ inputs.path }}
 
       - name: Archive artifact
         shell: sh
