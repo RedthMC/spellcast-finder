@@ -18,6 +18,11 @@ h1 {
     margin: 0.5rem;
 }
 
+h2 {
+    font-size: 2rem;
+    margin: 0rem;
+}
+
 hr {
     width: 50rem;
     display: block;
@@ -25,7 +30,10 @@ hr {
 
 #board {
     margin: 1rem auto;
-    display: block;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto;
+    gap: 1rem;
 }
 
 #board-background {
@@ -38,6 +46,39 @@ hr {
     background-color: #202020;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+}
+
+#result {
+    display: grid;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: #202020;
+    border-radius: 1rem;
+    align-items: center;
+    margin: auto 0;
+}
+
+p {
+    font-size: 1.4rem;
+    margin: 0;
+}
+
+#find-button {
+    font-family: Poppins, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #3a3a3a;
+    border: none;
+    outline: aqua solid 0rem;
+    color: #efefef;
+    border-radius: 0.5rem;
+    font-size: 1.4rem;
+}
+#find-button:hover {
+    background-color: #797979;
+    transition: 50ms;
+}
+#find-button:active {
+    outline: aqua solid 0.2rem;
+    transition: 50ms;
 }
 
 .cell-background {
