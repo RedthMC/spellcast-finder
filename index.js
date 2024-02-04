@@ -12,3 +12,15 @@ const result = find("abcdfergfidjsllkdopewfisd", {
 });
 console.log(result);
 document.querySelector("p").textContent += result?.word || "no result :<";
+
+for (const cell of document.querySelectorAll(".cell-background")) {
+    cell.addEventListener("keydown", event => {
+        let key = event.key
+        console.log(key);
+        if (key.length != 1) return;
+        if (!key.match(/[A-z]/g)) return;
+        key = key.toUpperCase();
+        cell.textContent = key;
+        cell.nextSibling.nextSibling?.focus()
+    });
+}
