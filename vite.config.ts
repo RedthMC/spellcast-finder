@@ -8,4 +8,7 @@ export default defineConfig({
     svelte(),
     topLevelAwait(),
   ],
+  build: {
+    assetsDir: ".",
+  },
 })
