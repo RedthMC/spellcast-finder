@@ -135,14 +135,14 @@ impl<'a> WordFinder<'a> {
         false
     }
 
-    fn find_path(&self, word: &Word) -> Option<Vec<Pos>> {
-        let mut path: Vec<Pos> = vec![];
-        for pos in Pos::all() {
-            if self.find_next_letter(word, pos, &mut path) {
-                return Some(path);
+    fn find_path(& self, word: &'a Word) -> impl Iterator<Item = Vec<Pos>> + '_ {
+        return Pos::all().filter_map(|pos| {
+            let mut path = vec![];
+            match self.find_next_letter(word, pos, &mut path) {
+                true => Some(path),
+                false => None,
             }
-        }
-        None
+        });
     }
 
     fn get_best_possible_score(&self, word: &Word) -> i32 {
@@ -169,7 +169,7 @@ impl<'a> WordFinder<'a> {
             if current_score >= self.get_best_possible_score(word) {
                 continue;
             }
-            if let Some(path) = self.find_path(&word) {
+            for path in self.find_path(&word) {
                 let score = self.get_score_of_path(word, &path);
                 if current_score >= score {
                     continue;
