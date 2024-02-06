@@ -1,7 +1,7 @@
 <script lang="ts">
     import Cell from "./Cell.svelte";
     import Result from "./Result.svelte";
-    import { board, path } from "./stores";
+    import { board } from "./main";
 
     export let resultBox: Result;
 

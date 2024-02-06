@@ -1,6 +1,6 @@
 <script lang="ts">
     import Result from "./Result.svelte";
-    import { board, path } from "./stores";
+    import { board, result, preventEnter } from "./main";
 
     export let resultBox: Result;
     export let cells: HTMLButtonElement[];
@@ -38,18 +38,30 @@
             $board.double_score = -1;
         }
     }
+
+    function setDL(index: number) {
+        if ($board.double_letter !== index) {
+            $board.double_letter = index;
+            $board.triple_letter = -1;
+        } else {
+            $board.double_letter = -1;
+        }
+    }
+
+    function setTL(index: number) {
+        if ($board.triple_letter !== index) {
+            $board.triple_letter = index;
+            $board.double_letter = -1;
+        } else {
+            $board.triple_letter = -1;
+        }
+    }
 </script>
 
-<button bind:this={cells[index]} class={"cell" + ($path.includes(index) ? " path" : "")} on:keydown={event => onKeyDown(event, index)}>
-    <button
-        class={"x2" + ($board.double_score === index ? " selected" : "")}
-        on:click={() => setX2(index)}
-        on:keydown={event => {
-            if (event.key === "Enter") event.preventDefault();
-        }}
-    >
-        2x
-    </button>
+<button bind:this={cells[index]} class={"cell" + ($result?.path.includes(index) ? " path" : "")} on:keydown={event => onKeyDown(event, index)}>
+    <button class={"x2" + ($board.double_score === index ? " selected" : "")} on:click={() => setX2(index)} on:keydown={preventEnter}>2x</button>
+    <button class={"dl" + ($board.double_letter === index ? " selected" : "")} on:click={() => setDL(index)} on:keydown={preventEnter}>DL</button>
+    <button class={"tl" + ($board.triple_letter === index ? " selected" : "")} on:click={() => setTL(index)} on:keydown={preventEnter}>TL</button>
     {letter}
 </button>
 
@@ -80,17 +92,14 @@
         background-color: #1ca800;
     }
 
-    .x2 {
+    .cell button {
         position: absolute;
         color: #efefef;
         font-family: Poppins, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        top: -10%;
-        right: -10%;
         width: 40%;
         height: 40%;
         border-radius: 50%;
         z-index: 1;
-        background: rgb(189, 0, 189);
         opacity: 0;
         align-items: center;
         font-size: 1.5rem;
@@ -98,13 +107,32 @@
         border: none;
         transition: 100ms;
     }
-    .x2:active {
+
+    .x2 {
+        top: -5%;
+        right: -5%;
+        background: rgb(189, 0, 189);
+    }
+
+    .dl {
+        top: -5%;
+        left: -5%;
+        background: rgb(189, 154, 0);
+    }
+
+    .tl {
+        bottom: -5%;
+        left: -5%;
+        background: rgb(189, 154, 0);
+    }
+
+    .cell :active {
         transform: translateY(10%);
     }
-    .cell:hover .x2:not(.selected) {
+    .cell:hover :not(.selected) {
         opacity: 0.4;
     }
-    .x2.selected {
+    .cell .selected {
         opacity: 1;
     }
 </style>

@@ -1,15 +1,12 @@
 <script lang="ts">
-    import { find, type JsSearchResult } from "./wasm/spellcast_finder.js";
-    import { board, path } from "./stores.js";
+    import { findWord, preventEnter, result } from "./main";
 
     let clicked: boolean | undefined;
-    let result: JsSearchResult | undefined;
     let findButton: HTMLButtonElement;
 
     export function click() {
         clicked = !clicked;
-        result = find($board.letters.join("").toLowerCase(), $board);
-        path.set(result?.path || Int32Array.of());
+        findWord();
     }
 
     export function focus() {
@@ -20,15 +17,15 @@
 <div>
     <h2>Result</h2>
     <p>
-        {#if result}
-            {result.word}
+        {#if $result}
+            {$result.word}
             <br />
-            {result.score} Points
+            {$result.score} Points
         {:else}
             No Result
         {/if}
     </p>
-    <button bind:this={findButton} on:click={click} on:keydown|preventDefault class={clicked === undefined ? "" : clicked ? "clicked1" : "clicked2"}>Find</button>
+    <button bind:this={findButton} on:click={click} on:keydown={preventEnter} class={clicked === undefined ? "" : clicked ? "clicked1" : "clicked2"}>Find</button>
 </div>
 
 <style>
