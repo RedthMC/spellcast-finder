@@ -1,6 +1,7 @@
 <script lang="ts">
     import Board from "./Board.svelte";
     import Result from "./Result.svelte";
+    import icon from "./spellcast-finder.svg";
     let resultBox: Result;
 
     document.onkeydown = event => {
@@ -13,7 +14,7 @@
 
 <header>
     <h1>SpellCast Finder</h1>
-    <img src="/src/spellcast-finder.svg" alt="Icon"/>
+    <img src={icon} alt="Icon"/>
     <a href="https://github.com/RedthMC/spellcast-finder">by Redth</a>
 </header>
 <hr />
