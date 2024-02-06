@@ -1,4 +1,5 @@
 # Spellcast Finder
+<img align="right" src="resources/spellcast-finder.svg" alt="Icon"/>
 
 a cheat for the spellcast activity on discord
 

@@ -51,6 +51,10 @@ impl LetterCountsMap {
     pub fn contains(&self, other: &Self) -> bool {
         return (0..26).all(|i| self.0[i] >= other.0[i]);
     }
+    
+    pub fn if_swap_contains(&self, other: &Self) -> bool {
+        return (0..26).map(|i| other.0[i].checked_sub(self.0[i]).unwrap_or(0)).sum::<u8>() <= 1;
+    }
 }
 
 impl Index<u8> for LetterCountsMap {

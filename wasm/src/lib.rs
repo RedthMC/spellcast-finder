@@ -3,7 +3,7 @@ mod word_finder;
 
 use wasm_bindgen::prelude::*;
 use word::Letter;
-use word_finder::{Multipliers, Pos, SearchResult, WordList};
+use word_finder::{Multipliers, Pos, SearchResult, SearchResultCanSwap, WordList};
 
 static mut WORD_LIST: Option<WordList> = None;
 
@@ -22,6 +22,16 @@ pub fn find(board: &str, multipliers: PosMultiplier) -> Option<JsSearchResult> {
     let board: [Letter; 25] = board.as_ref().try_into().ok()?;
     return word_list
         .find(&board, multipliers.into())
+        .map(JsSearchResult::from);
+}
+
+#[wasm_bindgen]
+pub fn find_can_swap(board: &str, multipliers: PosMultiplier) -> Option<JsSearchResult> {
+    let word_list = unsafe { WORD_LIST.as_ref()? };
+    let board: Box<[Letter]> = board.bytes().map_while(Letter::new).collect();
+    let board: [Letter; 25] = board.as_ref().try_into().ok()?;
+    return word_list
+        .find_can_swap(&board, multipliers.into())
         .map(JsSearchResult::from);
 }
 
@@ -60,11 +70,13 @@ impl Into<Multipliers<Option<Pos>>> for PosMultiplier {
     }
 }
 
+
 #[wasm_bindgen]
 pub struct JsSearchResult {
     pub score: i32,
     path: Box<[i32]>,
     word: Box<str>,
+    pub swapped_index: Option<usize>,
 }
 #[wasm_bindgen]
 impl JsSearchResult {
@@ -83,6 +95,17 @@ impl From<SearchResult> for JsSearchResult {
             score: value.score,
             path: value.path.iter().map(|pos| pos.index() as i32).collect(),
             word: value.word,
+            swapped_index: None,
+        };
+    }
+}
+impl From<SearchResultCanSwap> for JsSearchResult {
+    fn from(value: SearchResultCanSwap) -> Self {
+        return Self {
+            score: value.score,
+            path: value.path.iter().map(|pos| pos.index() as i32).collect(),
+            word: value.word,
+            swapped_index: value.swapped_index,
         };
     }
 }
@@ -96,10 +119,10 @@ mod tests {
     #[test]
     fn test_name() {
         let mut string = String::new();
-        let mut file = File::open("./resources/words.txt").unwrap();
+        let mut file = File::open("../resources/words.txt").unwrap();
         file.read_to_string(&mut string).unwrap();
         let word_list = WordList::load(&string);
-        let idk_wtf = "abcdfergfidjsllkdopewfisd"
+        let idk_wtf = "abcdefghijklmnopqrstuvwxy"
             .bytes()
             .map(Letter::new)
             .map(Option::unwrap);
@@ -107,7 +130,7 @@ mod tests {
         let board: [Letter; 25] = vect.as_ref().try_into().unwrap();
         println!("board: {:?}", board);
         let result = word_list
-            .find(
+            .find_can_swap(
                 &board,
                 Multipliers {
                     double_letter: None,

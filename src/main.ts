@@ -1,6 +1,6 @@
 import './app.css';
 import App from './App.svelte';
-import init, { find, JsSearchResult, load_word_list } from './wasm/spellcast_finder.js';
+import init, { find, find_can_swap, JsSearchResult, load_word_list } from './wasm/spellcast_finder.js';
 import { writable, type Writable } from 'svelte/store';
 
 async function load_wasm() {
@@ -27,6 +27,10 @@ board.subscribe(b => lastBoard = b);
 
 export function findWord() {
     result.set(find(lastBoard.letters.join("").toLowerCase(), lastBoard));
+}
+
+export function findWordCanSwap() {
+    result.set(find_can_swap(lastBoard.letters.join("").toLowerCase(), lastBoard));
 }
 
 export function preventEnter(event: KeyboardEvent) {

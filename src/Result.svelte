@@ -1,13 +1,20 @@
 <script lang="ts">
-    import { findWord, preventEnter, result } from "./main";
+    import { findWord, findWordCanSwap, preventEnter, result } from "./main";
 
     let findButton: HTMLButtonElement;
     let style = "";
+    let style2 = "";
 
     export function click() {
         style = "";
         setTimeout(() => style = "clicked");
         findWord();
+    }
+    
+    export function clickCanSwap() {
+        style2 = "";
+        setTimeout(() => style2 = "clicked");
+        findWordCanSwap();
     }
 
     export function focus() {
@@ -27,6 +34,7 @@
         {/if}
     </p>
     <button bind:this={findButton} on:click={click} on:keydown={preventEnter} class={style}>Find</button>
+    <button on:click={clickCanSwap} on:keydown={preventEnter} class={style2}>Can Swap</button>
 </div>
 
 <style>
