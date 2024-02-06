@@ -180,20 +180,20 @@
     }
 
     .x2 {
-        top: -5%;
-        right: -5%;
+        top: -10%;
+        right: -10%;
         background: rgb(189, 0, 189);
     }
 
     .dl {
-        top: -5%;
-        left: -5%;
+        top: -10%;
+        left: -10%;
         background: rgb(189, 154, 0);
     }
 
     .tl {
-        bottom: -5%;
-        left: -5%;
+        bottom: -10%;
+        left: -10%;
         background: rgb(189, 154, 0);
     }
 
