@@ -20,12 +20,11 @@
         width: 45rem;
         height: 45rem;
         display: grid;
-        gap: 1rem;
-        padding: 1rem;
-        border-radius: 1rem;
+        gap: 2rem;
+        padding: 2rem;
+        border-radius: 2rem;
         background-color: #202020;
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
         grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
     }
-
 </style>

@@ -1,11 +1,12 @@
 <script lang="ts">
     import { findWord, preventEnter, result } from "./main";
 
-    let clicked: boolean | undefined;
     let findButton: HTMLButtonElement;
+    let style = "";
 
     export function click() {
-        clicked = !clicked;
+        style = "";
+        setTimeout(() => style = "clicked");
         findWord();
     }
 
@@ -25,7 +26,7 @@
             No Result
         {/if}
     </p>
-    <button bind:this={findButton} on:click={click} on:keydown={preventEnter} class={clicked === undefined ? "" : clicked ? "clicked1" : "clicked2"}>Find</button>
+    <button bind:this={findButton} on:click={click} on:keydown={preventEnter} class={style}>Find</button>
 </div>
 
 <style>
@@ -83,25 +84,11 @@
         width: 100%;
         height: 100%;
     }
-    button.clicked1::after {
+    button.clicked::after {
         animation-duration: 500ms;
-        animation-name: explode1;
+        animation-name: explode;
     }
-    button.clicked2::after {
-        animation-duration: 500ms;
-        animation-name: explode2;
-    }
-    @keyframes explode1 {
-        from {
-            box-shadow: 0 0 0 0 white;
-            opacity: 1;
-        }
-        to {
-            box-shadow: 0 0 10px 40px white;
-            opacity: 0;
-        }
-    }
-    @keyframes explode2 {
+    @keyframes explode {
         from {
             box-shadow: 0 0 0 0 white;
             opacity: 1;
