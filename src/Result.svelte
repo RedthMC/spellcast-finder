@@ -7,13 +7,13 @@
 
     export function click() {
         style = "";
-        setTimeout(() => style = "clicked");
+        setTimeout(() => (style = "clicked"), 1);
         findWord();
     }
-    
+
     export function clickCanSwap() {
         style2 = "";
-        setTimeout(() => style2 = "clicked");
+        setTimeout(() => (style2 = "clicked"), 1);
         findWordCanSwap();
     }
 
@@ -31,6 +31,8 @@
             {$result.score} Points
         {:else}
             No Result
+            <br />
+            :(
         {/if}
     </p>
     <button bind:this={findButton} on:click={click} on:keydown={preventEnter} class={style}>Find</button>
@@ -43,14 +45,18 @@
         gap: 1rem;
         padding: 1rem;
         background-color: #202020;
-        border-radius: 1rem;
+        border-radius: 2rem;
         align-items: center;
-        margin: auto 0;
+        margin: 0;
+
+        grid-template-columns: 1fr 2fr 1fr 1fr;
+        grid-template-rows: auto;
     }
 
     h2 {
         font-size: 2rem;
-        margin: 0rem;
+        margin: 0;
+        padding: 0 1rem;
     }
 
     p {
@@ -65,6 +71,8 @@
         outline: aqua solid 0rem;
         color: #efefef;
         border-radius: 0.5rem;
+        width: 100%;
+        height: 90%;
         font-size: 1.4rem;
         transition: 100ms;
         cursor: pointer;

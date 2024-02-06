@@ -5,7 +5,7 @@
     let resultBox: Result;
 
     document.onkeydown = event => {
-        if (event.key === "Enter"){ 
+        if (event.key === "Enter") {
             if (event.shiftKey) resultBox.clickCanSwap();
             else resultBox.click();
         }
@@ -14,7 +14,7 @@
 
 <header>
     <h1>SpellCast Finder</h1>
-    <img src={icon} alt="Icon"/>
+    <img src={icon} alt="Icon" />
     <a href="https://github.com/RedthMC/spellcast-finder">by Redth</a>
 </header>
 <hr />
@@ -58,8 +58,8 @@
     main {
         margin: 1rem auto;
         display: grid;
-        grid-template-columns: auto auto;
-        grid-template-rows: auto;
+        grid-template-columns: auto;
+        grid-template-rows: auto auto;
         gap: 1rem;
     }
 </style>

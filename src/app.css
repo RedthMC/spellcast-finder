@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Poppins:700|Poppins:400");
 
 html {
-    font-size: 1.7vmin;
+    font-size: min(1.5vh, 1.95vw);
 }
 
 * {
@@ -12,9 +12,11 @@ body {
     font-family: Poppins, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     place-items: center;
     font-size: small;
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     background-color: #090909;
     color: #efefef;
     margin: 0;
+    justify-content: center;
 }
-
